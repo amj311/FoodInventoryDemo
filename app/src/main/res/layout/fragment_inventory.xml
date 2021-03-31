@@ -7,7 +7,7 @@
     tools:context=".ui.inventory.InventoryFragment">
 
     <TextView
-        android:id="@+id/text_dashboard"
+        android:id="@+id/text_inventory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
