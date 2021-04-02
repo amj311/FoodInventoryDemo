@@ -11,26 +11,25 @@
         android:id="@+id/list_item_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginBottom="12dp"
         android:contentDescription="Icon"
-        tools:src="@drawable/ic_launcher_foreground"/>
+        tools:src="@drawable/ic_launcher_foreground"
+        android:layout_marginStart="12dp" />
 
     <TextView
         android:id="@+id/expanded_list_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
-        tools:text="Susan Ellis"/>
+        tools:text="Susan Ellis"
+        android:layout_marginStart="16dp" />
 
     <NumberPicker
         android:id="@+id/list_number_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"/>
-
+        android:orientation="horizontal" />
 
 </LinearLayout>

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,14 +25,14 @@ import java.util.List;
 
 public class InventoryFragment extends Fragment {
 
-    private InventoryViewModel inventoryViewModel;
+//    private InventoryViewModel inventoryViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        inventoryViewModel =
-                ViewModelProviders.of(this).get(InventoryViewModel.class);
+//        inventoryViewModel =
+//                ViewModelProviders.of(this).get(InventoryViewModel.class);
         View root = inflater.inflate(R.layout.fragment_inventory, container, false);
-        final TextView textView = root.findViewById(R.id.text_inventory);
+//        final TextView textView = root.findViewById(R.id.text_inventory);
 
 //        inventoryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
 //            @Override
@@ -61,13 +62,7 @@ public class InventoryFragment extends Fragment {
         return root;
     }
 
-    abstract class Displayable {
-        abstract Bitmap displayIcon(Context context);
-        abstract String displayText();
-        abstract void handleClick(Context context);
-    }
-
-    class FoodItemDisplayable extends Displayable {
+    class FoodItemDisplayable {
         public String foodName;
         public String expirationDate;
         public FoodItemDisplayable(String foodName, String expirationDate) {
@@ -75,17 +70,14 @@ public class InventoryFragment extends Fragment {
             this.expirationDate = expirationDate;
         }
 
-        @Override
         Bitmap displayIcon(Context context) {
             return null;
         }
 
-        @Override
         String displayText() {
-            return foodName + " " + expirationDate;
+            return foodName + " - Exp: " + expirationDate;
         }
 
-        @Override
         void handleClick(Context context) {
 
         }
@@ -95,11 +87,13 @@ public class InventoryFragment extends Fragment {
         class ViewHolder {
             public ImageView icon;
             public TextView textView;
-            public Displayable displayable;
+            public NumberPicker numberPicker;
+            public FoodItemDisplayable displayable;
 
             public ViewHolder(View view) {
                 icon = view.findViewById(R.id.list_item_icon);
                 textView = view.findViewById(R.id.expanded_list_item);
+                numberPicker = view.findViewById(R.id.list_number_picker);
                 displayable = null;
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -172,7 +166,7 @@ public class InventoryFragment extends Fragment {
         public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
             ViewHolder viewHolder;
             View rowView;
-            Displayable displayable = (Displayable) getChild(groupPosition, childPosition);
+            FoodItemDisplayable displayable = (FoodItemDisplayable) getChild(groupPosition, childPosition);
             if (convertView == null) {
                 LayoutInflater layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 rowView = layoutInflater.inflate(R.layout.list_item, parent, false);
@@ -184,6 +178,8 @@ public class InventoryFragment extends Fragment {
             }
             viewHolder.icon.setImageBitmap(displayable.displayIcon(parent.getContext()));
             viewHolder.textView.setText(displayable.displayText());
+            viewHolder.numberPicker.setMaxValue(100);
+            viewHolder.numberPicker.setMinValue(0);
             viewHolder.displayable = displayable;
             return rowView;
         }
