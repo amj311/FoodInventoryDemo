@@ -49,10 +49,15 @@ public class InventoryFragment extends Fragment {
         fruitList.add(new FoodItemDisplayable("Dried Apples", "08/20/2021"));
         fruitList.add(new FoodItemDisplayable("Dried Pears", "08/20/2021"));
 
+        ArrayList<FoodItemDisplayable> otherList = new ArrayList<>();
+        otherList.add(new FoodItemDisplayable("Peanut Butter", "04/21/2021"));
+        otherList.add(new FoodItemDisplayable("Bottled Water", "08/20/2021"));
+
         HashMap<String, ArrayList<FoodItemDisplayable>> listData = new HashMap<>();
 
         listData.put("Grains", grainList);
         listData.put("Fruit", fruitList);
+        listData.put("Other", otherList);
         //TODO add groups and data
         List<String> keyList = new ArrayList<>(listData.keySet());
 

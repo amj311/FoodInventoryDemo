@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Clicked the action button.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Clicked the action button.", Toast.LENGTH_SHORT).show();
             }
         });
     }
