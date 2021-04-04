@@ -21,7 +21,6 @@ import com.example.foodinventorydemo.ui.scanner.ScannerFragment;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
-    private Button button;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -33,15 +32,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
-            }
-        });
-
-        button = root.findViewById(R.id.button2);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), AddItemActivity.class);
-                startActivity(intent);
             }
         });
 
