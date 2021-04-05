@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.example.foodinventorydemo.R;
 
@@ -26,7 +28,8 @@ public class HomeFragment extends Fragment {
         viewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Click the inventory tab!", Toast.LENGTH_SHORT).show();
+                NavController navController = Navigation.findNavController(v);
+                navController.navigate(R.id.navigation_inventory);
             }
         });
 
