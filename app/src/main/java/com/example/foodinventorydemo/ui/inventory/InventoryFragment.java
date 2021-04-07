@@ -68,8 +68,12 @@ public class InventoryFragment extends Fragment {
             return null;
         }
 
-        String displayText() {
-            return foodName + " - Exp: " + expirationDate;
+        String displayFoodName() {
+            return foodName;
+        }
+
+        String displayExpirationDate() {
+            return expirationDate;
         }
 
         void handleClick(Context context) {
@@ -79,14 +83,16 @@ public class InventoryFragment extends Fragment {
 
     class Adapter extends BaseExpandableListAdapter {
         class ViewHolder {
-//            public ImageView icon;
-//            public TextView textView;
+            public ImageView icon;
+            public TextView foodName;
+            public TextView expirationDate;
 //            public NumberPicker numberPicker;
             public FoodItemDisplayable displayable;
 
             public ViewHolder(View view) {
-//                icon = view.findViewById(R.id.list_item_icon);
-//                textView = view.findViewById(R.id.expanded_list_item);
+                icon = view.findViewById(R.id.list_item_icon);
+                foodName = view.findViewById(R.id.food_name);
+                expirationDate = view.findViewById(R.id.expiration_date);
 //                numberPicker = view.findViewById(R.id.list_number_picker);
                 displayable = null;
                 view.setOnClickListener(new View.OnClickListener() {
@@ -170,8 +176,9 @@ public class InventoryFragment extends Fragment {
                 viewHolder = (ViewHolder) convertView.getTag();
                 rowView = convertView;
             }
-//            viewHolder.icon.setImageBitmap(displayable.displayIcon(parent.getContext()));
-//            viewHolder.textView.setText(displayable.displayText());
+            viewHolder.icon.setImageBitmap(displayable.displayIcon(parent.getContext()));
+            viewHolder.foodName.setText(displayable.displayFoodName());
+            viewHolder.expirationDate.setText(displayable.displayExpirationDate());
 //            viewHolder.numberPicker.setMaxValue(100);
 //            viewHolder.numberPicker.setMinValue(0);
             viewHolder.displayable = displayable;
