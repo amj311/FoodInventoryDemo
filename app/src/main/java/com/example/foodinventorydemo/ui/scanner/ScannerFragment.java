@@ -8,6 +8,7 @@ import android.media.ToneGenerator;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
@@ -45,7 +46,8 @@ public class ScannerFragment extends Fragment {
     //This class provides methods to play DTMF tones
     private ToneGenerator toneGen1;
     private ScannerCaller caller;
-    private boolean doScan;
+    private boolean selfAllow = false;
+    private boolean extAllow = true;
 
     public ScannerFragment() {
         // Required empty public constructor
@@ -145,7 +147,7 @@ public class ScannerFragment extends Fragment {
                     barcodeText.post(new Runnable() {
                         @Override
                         public void run() {
-                            if (doScan) {
+                            if (canScan()) {
                                 String barcodeData = barcodes.valueAt(0).displayValue;
                                 barcodeText.setText(barcodeData);
                                 toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
@@ -162,21 +164,34 @@ public class ScannerFragment extends Fragment {
             }
         });
 
-        doScan = true;
+        selfAllow = true;
         Toast.makeText(getContext(), "Barcode scanner started", Toast.LENGTH_SHORT).show();
     }
 
-    private void disallowScan() {
-        doScan = false;
-        scanOverlay.setAlpha(0.5F);
+    private boolean canScan() {
+        return extAllow && selfAllow;
     }
 
-    private void allowScan() {
-        doScan = true;
-        scanOverlay.setAlpha(1F);
+    private void updateAllowScan() {
+        if (canScan()) scanOverlay.setAlpha(1F);
+        else scanOverlay.setAlpha(0.5F);
     }
 
-    private void sleepScanner(){
+    public void disallowScan() {
+        extAllow = false;
+        updateAllowScan();
+    }
+    public void allowScan() {
+        extAllow = true;
+        updateAllowScan();
+    }
+
+    private void allowSelf(boolean allowance) {
+        selfAllow = allowance;
+        updateAllowScan();
+    }
+
+    public void sleepScanner(){
         new SleepScannerTask().execute();
     };
 
@@ -188,7 +203,7 @@ public class ScannerFragment extends Fragment {
          */
         @Override
         protected void onPreExecute() {
-            disallowScan();
+            allowSelf(false);
         }
 
         /**
@@ -198,11 +213,13 @@ public class ScannerFragment extends Fragment {
         @Override
         protected Object doInBackground(Object[] objects) {
             SystemClock.sleep(1000);
-            allowScan();
+            allowSelf(true);
             return null;
         }
+    }
 
-
-
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 }
