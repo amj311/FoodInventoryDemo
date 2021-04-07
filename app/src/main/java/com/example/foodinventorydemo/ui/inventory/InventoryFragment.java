@@ -79,15 +79,15 @@ public class InventoryFragment extends Fragment {
 
     class Adapter extends BaseExpandableListAdapter {
         class ViewHolder {
-            public ImageView icon;
-            public TextView textView;
-            public NumberPicker numberPicker;
+//            public ImageView icon;
+//            public TextView textView;
+//            public NumberPicker numberPicker;
             public FoodItemDisplayable displayable;
 
             public ViewHolder(View view) {
-                icon = view.findViewById(R.id.list_item_icon);
-                textView = view.findViewById(R.id.expanded_list_item);
-                numberPicker = view.findViewById(R.id.list_number_picker);
+//                icon = view.findViewById(R.id.list_item_icon);
+//                textView = view.findViewById(R.id.expanded_list_item);
+//                numberPicker = view.findViewById(R.id.list_number_picker);
                 displayable = null;
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -170,10 +170,10 @@ public class InventoryFragment extends Fragment {
                 viewHolder = (ViewHolder) convertView.getTag();
                 rowView = convertView;
             }
-            viewHolder.icon.setImageBitmap(displayable.displayIcon(parent.getContext()));
-            viewHolder.textView.setText(displayable.displayText());
-            viewHolder.numberPicker.setMaxValue(100);
-            viewHolder.numberPicker.setMinValue(0);
+//            viewHolder.icon.setImageBitmap(displayable.displayIcon(parent.getContext()));
+//            viewHolder.textView.setText(displayable.displayText());
+//            viewHolder.numberPicker.setMaxValue(100);
+//            viewHolder.numberPicker.setMinValue(0);
             viewHolder.displayable = displayable;
             return rowView;
         }
