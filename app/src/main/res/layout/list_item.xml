@@ -7,92 +7,96 @@
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
-<!--    <LinearLayout-->
-<!--        android:id="@+id/list_item2"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="vertical" >-->
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="horizontal">-->
-
-<!--            <ImageView-->
-<!--                android:layout_width="70dp"-->
-<!--                android:layout_height="70dp"-->
-<!--                android:src="@drawable/common_google_signin_btn_icon_disabled" />-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:orientation="horizontal">-->
-
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:gravity="left|center_vertical"-->
-<!--                    android:layout_marginLeft="15dp"-->
-<!--                    android:orientation="vertical">-->
-
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:textSize="16sp"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:layout_marginBottom="5dp"-->
-<!--                        android:text="Beef Jerky" />-->
-
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Exp: 05/12/2022" />-->
-<!--                </LinearLayout>-->
-
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:gravity="center"-->
-<!--                    android:padding="15dp"-->
-<!--                    android:text="Qty: 1"/>-->
-<!--            </LinearLayout>-->
-
-<!--        </LinearLayout>-->
-<!--        <View-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="1dp"-->
-<!--            android:layout_weight="1"-->
-<!--            android:layout_marginTop="6dp"-->
-<!--            android:layout_marginBottom="6dp"-->
-<!--            android:background="?android:attr/listDivider" />-->
-
-<!--    </LinearLayout>-->
-
-    <ImageView
-        android:id="@+id/list_item_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginBottom="12dp"
-        android:contentDescription="Icon"
-        tools:src="@drawable/ic_launcher_foreground"
-        android:layout_marginStart="12dp" />
-
-    <TextView
-        android:id="@+id/expanded_list_item"
+    <LinearLayout
+        android:id="@+id/list_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        tools:text="Susan Ellis"
-        android:layout_marginStart="16dp" />
+        android:orientation="vertical" >
 
-    <NumberPicker
-        android:id="@+id/list_number_picker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/list_item_icon"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/ic_baseline_add_24" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left|center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/food_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="5dp"
+                        android:text="Beef Jerky" />
+
+                    <TextView
+                        android:id="@+id/expiration_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Exp: 05/12/2022" />
+                </LinearLayout>
+
+                <!--TODO fix this: NumberPicker?-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:text="Qty: 1"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:background="?android:attr/listDivider" />
+
+    </LinearLayout>
+
+<!--    <ImageView-->
+<!--        android:id="@+id/list_item_icon"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="12dp"-->
+<!--        android:layout_marginLeft="12dp"-->
+<!--        android:layout_marginBottom="12dp"-->
+<!--        android:contentDescription="Icon"-->
+<!--        tools:src="@drawable/ic_launcher_foreground"-->
+<!--        android:layout_marginStart="12dp" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/expanded_list_item"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginLeft="16dp"-->
+<!--        tools:text="Susan Ellis"-->
+<!--        android:layout_marginStart="16dp" />-->
+
+<!--    <NumberPicker-->
+<!--        android:id="@+id/list_number_picker"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal" />-->
 
 </LinearLayout>
