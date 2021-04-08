@@ -73,7 +73,7 @@ public class InventoryFragment extends Fragment {
         }
 
         String displayExpirationDate() {
-            return expirationDate;
+            return "Expires: " + expirationDate;
         }
 
         void handleClick(Context context) {
