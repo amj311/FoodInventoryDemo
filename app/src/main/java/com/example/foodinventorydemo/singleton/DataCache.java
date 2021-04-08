@@ -1,12 +1,14 @@
 package com.example.foodinventorydemo.singleton;
 
+import com.example.foodinventorydemo.model.ProductUnitData;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class DataCache {
     private static DataCache single_instance = null;
 
-    public List<FoodItem> foodItemList = new ArrayList<>();
+    public List<ProductUnitData> foodItemList = new ArrayList<>();
     // private constructor restricted to this class itself
     private DataCache()
     {
