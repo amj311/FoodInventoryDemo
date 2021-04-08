@@ -165,7 +165,6 @@ public class ScannerFragment extends Fragment {
         });
 
         selfAllow = true;
-        Toast.makeText(getContext(), "Barcode scanner started", Toast.LENGTH_SHORT).show();
     }
 
     private boolean canScan() {

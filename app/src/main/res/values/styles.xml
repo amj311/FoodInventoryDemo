@@ -12,4 +12,14 @@
         <item name="materialCalendarTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar</item>
     </style>
 
+    <style name="SCBSwitch" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">@color/out_red</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">@color/in_green</item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">@color/in_green</item>
+    </style>
 </resources>

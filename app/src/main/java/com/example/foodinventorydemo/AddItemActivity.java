@@ -2,16 +2,20 @@ package com.example.foodinventorydemo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -26,14 +30,28 @@ import com.example.foodinventorydemo.utils.ResourceResponseHandler;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class AddItemActivity extends AppCompatActivity {
+    private final String MODE_IN = "IN";
+    private final String MODE_OUT = "OUT";
+    private String mode;
+
+    private final int INPUT_SCAN = 0;
+    private final int INPUT_FORM = 1;
+    private int input;
+
+    TextView inLabel;
+    TextView outLabel;
+    LinearLayoutCompat inForm;
+    LinearLayoutCompat outForm;
+    SwitchMaterial modeToggle;
+
     ConstraintLayout fragWrap;
     FrameLayout addFrag;
     MaterialButton scanBtn;
@@ -56,10 +74,16 @@ public class AddItemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_item);
+        setContentView(R.layout.activity_add_remove_item);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dataResHandler = new ProductResultHandler();
+
+        modeToggle = findViewById(R.id.inOutToggle);
+        inLabel = findViewById(R.id.inLabel);
+        outLabel = findViewById(R.id.outLabel);
+        inForm = findViewById(R.id.addForm);
+        outForm = findViewById(R.id.removeForm);
 
         scanBtn = findViewById(R.id.scanButton);
         closeBtn = findViewById(R.id.closeBtn);
@@ -79,9 +103,22 @@ public class AddItemActivity extends AppCompatActivity {
             }
         });
 
+
+        switchToIn();
+        input = INPUT_SCAN;
+        if (mode.equals(MODE_IN)) outLabel.setTextColor(Color.WHITE);
+        else inLabel.setTextColor(Color.WHITE);
+        scanner = ScannerFragment.newInstance(new AddScanCaller());
+        getSupportFragmentManager().beginTransaction().replace(R.id.addScanFrag, scanner).commit();
+        fragWrap.setVisibility(View.VISIBLE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         scanBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                input = INPUT_SCAN;
+                if (mode.equals(MODE_IN)) outLabel.setTextColor(Color.WHITE);
+                else inLabel.setTextColor(Color.WHITE);
                 scanner = ScannerFragment.newInstance(new AddScanCaller());
                 getSupportFragmentManager().beginTransaction().replace(R.id.addScanFrag, scanner).commit();
                 fragWrap.setVisibility(View.VISIBLE);
@@ -91,12 +128,24 @@ public class AddItemActivity extends AppCompatActivity {
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                input = INPUT_FORM;
+                if (mode.equals(MODE_IN)) outLabel.setTextColor(Color.BLACK);
+                else inLabel.setTextColor(Color.BLACK);
                 getSupportFragmentManager().beginTransaction().remove(scanner).commit();
                 fragWrap.setVisibility(View.GONE);
                 scanner = null;
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             }
         });
+
+        modeToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) switchToOut();
+                else switchToIn();
+            }
+        });
+
         findViewById(R.id.addItemBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,6 +171,18 @@ public class AddItemActivity extends AppCompatActivity {
 
 
     class AddScanCaller extends ScannerCaller {
+        Creator<AddScanCaller> CREATOR = new Creator<AddScanCaller>() {
+            @Override
+            public AddScanCaller createFromParcel(Parcel parcel) {
+                return new AddScanCaller();
+            }
+
+            @Override
+            public AddScanCaller[] newArray(int i) {
+                return new AddScanCaller[0];
+            }
+        };
+
         @Override
         protected void onNewScanData(String data) {
             if (searching) return;
@@ -147,12 +208,6 @@ public class AddItemActivity extends AppCompatActivity {
             endSearchingState();
             addItem(res);
         }
-    }
-
-    private void endSearchingState() {
-        searching = false;
-        scanner.allowScan();
-        searchingSpinner.setVisibility(View.GONE);
     }
 
 
@@ -181,6 +236,12 @@ public class AddItemActivity extends AppCompatActivity {
 
 
 
+    private void endSearchingState() {
+        searching = false;
+        scanner.allowScan();
+        searchingSpinner.setVisibility(View.GONE);
+    }
+
     private void induceSearchingState() {
         searching = true;
         scanner.disallowScan();
@@ -188,6 +249,21 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
 
+
+    private void switchToIn() {
+        mode = MODE_IN;
+        inLabel.setTextColor(getResources().getColor(R.color.in_green));
+        outLabel.setTextColor(input == INPUT_FORM? Color.BLACK : Color.WHITE);
+        inForm.setVisibility(View.VISIBLE);
+        outForm.setVisibility(View.GONE);
+    }
+    private void switchToOut() {
+        mode = MODE_OUT;
+        outLabel.setTextColor(getResources().getColor(R.color.out_red));
+        inLabel.setTextColor(input == INPUT_FORM? Color.BLACK : Color.WHITE);
+        outForm.setVisibility(View.VISIBLE);
+        inForm.setVisibility(View.GONE);
+    }
 
 
 
@@ -202,17 +278,22 @@ public class AddItemActivity extends AppCompatActivity {
             private final TextView nameText;
             private final TextView expireText;
             private final TextView qtyText;
+            private final TextView modeText;
             private final ImageView imageView;
 
             public ItemViewHolder(@NonNull View itemView) {
                 super(itemView);
+                modeText = itemView.findViewById(R.id.modeText);
                 nameText = itemView.findViewById(R.id.productName);
                 expireText = itemView.findViewById(R.id.productExpire);
                 qtyText = itemView.findViewById(R.id.productQty);
                 imageView = itemView.findViewById(R.id.productImage);
+
             }
 
             public void setItem(ProductUnitData item) {
+                modeText.setText(mode);
+                modeText.setTextColor(mode.equals(MODE_IN) ? getResources().getColor(R.color.in_green) : getResources().getColor(R.color.out_red));
                 nameText.setText(item.getName());
                 expireText.setText(item.getExpiration()!=null ? item.getExpiration() : "Expires: 5/12/2024");
                 qtyText.setText(String.format("Qty: %d", item.getQty()!=0 ? item.getQty() : 1));
@@ -242,7 +323,7 @@ public class AddItemActivity extends AppCompatActivity {
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_view, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.transaction_item_view, parent, false);
             return new ItemViewHolder(view);
         }
 
