@@ -25,21 +25,10 @@ import java.util.List;
 
 public class InventoryFragment extends Fragment {
 
-//    private InventoryViewModel inventoryViewModel;
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-//        inventoryViewModel =
-//                ViewModelProviders.of(this).get(InventoryViewModel.class);
         View root = inflater.inflate(R.layout.fragment_inventory, container, false);
-//        final TextView textView = root.findViewById(R.id.text_inventory);
 
-//        inventoryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
 
         ArrayList<FoodItemDisplayable> grainList = new ArrayList<>();
         grainList.add(new FoodItemDisplayable("Rice", "05/07/2021"));
