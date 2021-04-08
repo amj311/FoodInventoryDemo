@@ -31,23 +31,23 @@ public class InventoryFragment extends Fragment {
 
 
         ArrayList<FoodItemDisplayable> grainList = new ArrayList<>();
-        grainList.add(new FoodItemDisplayable("Rice", "05/07/2021"));
-        grainList.add(new FoodItemDisplayable("Noodles", "05/07/2021"));
+        grainList.add(new FoodItemDisplayable("Rice", "05/07/2021", "4"));
+        grainList.add(new FoodItemDisplayable("Noodles", "05/07/2021", "3"));
 
         ArrayList<FoodItemDisplayable> fruitList = new ArrayList<>();
-        fruitList.add(new FoodItemDisplayable("Dried Apples", "08/20/2021"));
-        fruitList.add(new FoodItemDisplayable("Dried Pears", "08/20/2021"));
+        fruitList.add(new FoodItemDisplayable("Dried Apples", "08/20/2021", "5"));
+        fruitList.add(new FoodItemDisplayable("Dried Pears", "08/20/2021", "6"));
 
         ArrayList<FoodItemDisplayable> otherList = new ArrayList<>();
-        otherList.add(new FoodItemDisplayable("Peanut Butter", "04/21/2021"));
-        otherList.add(new FoodItemDisplayable("Bottled Water", "08/20/2021"));
+        otherList.add(new FoodItemDisplayable("Peanut Butter", "04/21/2021", "7"));
+        otherList.add(new FoodItemDisplayable("Bottled Water", "08/20/2021", "2"));
 
         HashMap<String, ArrayList<FoodItemDisplayable>> listData = new HashMap<>();
 
         listData.put("Grains", grainList);
         listData.put("Fruit", fruitList);
         listData.put("Other", otherList);
-        //TODO add groups and data
+
         List<String> keyList = new ArrayList<>(listData.keySet());
 
         ExpandableListView expandableListView = root.findViewById(R.id.expandable_list_view);
@@ -59,9 +59,11 @@ public class InventoryFragment extends Fragment {
     class FoodItemDisplayable {
         public String foodName;
         public String expirationDate;
-        public FoodItemDisplayable(String foodName, String expirationDate) {
+        public String quantity;
+        public FoodItemDisplayable(String foodName, String expirationDate, String quantity) {
             this.foodName = foodName;
             this.expirationDate = expirationDate;
+            this.quantity = quantity;
         }
 
         Bitmap displayIcon(Context context) {
@@ -76,6 +78,10 @@ public class InventoryFragment extends Fragment {
             return "Expires: " + expirationDate;
         }
 
+        String displayQuantity() {
+            return "Qty: " + quantity;
+        }
+
         void handleClick(Context context) {
 
         }
@@ -86,6 +92,7 @@ public class InventoryFragment extends Fragment {
             public ImageView icon;
             public TextView foodName;
             public TextView expirationDate;
+            public TextView itemQuantity;
 //            public NumberPicker numberPicker;
             public FoodItemDisplayable displayable;
 
@@ -93,6 +100,7 @@ public class InventoryFragment extends Fragment {
                 icon = view.findViewById(R.id.list_item_icon);
                 foodName = view.findViewById(R.id.food_name);
                 expirationDate = view.findViewById(R.id.expiration_date);
+                itemQuantity = view.findViewById(R.id.item_quantity);
 //                numberPicker = view.findViewById(R.id.list_number_picker);
                 displayable = null;
                 view.setOnClickListener(new View.OnClickListener() {
@@ -179,6 +187,7 @@ public class InventoryFragment extends Fragment {
             viewHolder.icon.setImageBitmap(displayable.displayIcon(parent.getContext()));
             viewHolder.foodName.setText(displayable.displayFoodName());
             viewHolder.expirationDate.setText(displayable.displayExpirationDate());
+            viewHolder.itemQuantity.setText(displayable.displayQuantity());
 //            viewHolder.numberPicker.setMaxValue(100);
 //            viewHolder.numberPicker.setMinValue(0);
             viewHolder.displayable = displayable;

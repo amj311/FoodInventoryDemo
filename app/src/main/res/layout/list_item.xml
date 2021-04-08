@@ -53,8 +53,8 @@
                         android:text="Exp: 05/12/2022" />
                 </LinearLayout>
 
-                <!--TODO fix this: NumberPicker?-->
                 <TextView
+                    android:id="@+id/item_quantity"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
