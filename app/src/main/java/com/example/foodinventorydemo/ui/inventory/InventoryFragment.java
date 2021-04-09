@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.foodinventorydemo.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,16 +31,16 @@ public class InventoryFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_inventory, container, false);
 
         ArrayList<FoodItemDisplayable> grainList = new ArrayList<>();
-        grainList.add(new FoodItemDisplayable("Rice", "05/07/2021", "4"));
-        grainList.add(new FoodItemDisplayable("Noodles", "05/07/2021", "3"));
+        grainList.add(new FoodItemDisplayable("https://previews.123rf.com/images/jamakosy/jamakosy1711/jamakosy171100225/90332158-white-rice-in-burlap-sack-bag-isolated-on-white-background.jpg","Rice", "05/07/2021", "4"));
+        grainList.add(new FoodItemDisplayable("https://www.dutchmansstore.com/wp-content/uploads/2020/09/DSC_4812-Edit-scaled-e1601073911963.jpg","Noodles", "05/07/2021", "3"));
 
         ArrayList<FoodItemDisplayable> fruitList = new ArrayList<>();
-        fruitList.add(new FoodItemDisplayable("Dried Apples", "08/20/2021", "5"));
-        fruitList.add(new FoodItemDisplayable("Dried Pears", "08/20/2021", "6"));
+        fruitList.add(new FoodItemDisplayable("https://nuts.com/images/rackcdn/ed910ae2d60f0d25bcb8-80550f96b5feb12604f4f720bfefb46d.ssl.cf1.rackcdn.com/e8d95ad6e4090391-sXRwtvud-large.jpg","Dried Apples", "08/20/2021", "5"));
+        fruitList.add(new FoodItemDisplayable("https://www.bellaviva.com/assets/images/dried-fruit/pear.jpg","Dried Pears", "08/20/2021", "6"));
 
         ArrayList<FoodItemDisplayable> otherList = new ArrayList<>();
-        otherList.add(new FoodItemDisplayable("Peanut Butter", "04/21/2021", "7"));
-        otherList.add(new FoodItemDisplayable("Bottled Water", "08/20/2021", "2"));
+        otherList.add(new FoodItemDisplayable("https://www.peanutbutter.com/wp-content/uploads/2019/03/SKIPPY_Product_PB_Spread_Creamy_Peanut_Butter_28oz.png","Peanut Butter", "04/21/2021", "7"));
+        otherList.add(new FoodItemDisplayable("https://images.heb.com/is/image/HEBGrocery/000567987","Bottled Water", "08/20/2021", "2"));
 
         HashMap<String, ArrayList<FoodItemDisplayable>> listData = new HashMap<>();
 
@@ -56,10 +57,12 @@ public class InventoryFragment extends Fragment {
     }
 
     class FoodItemDisplayable {
+        public String url;
         public String foodName;
         public String expirationDate;
         public String quantity;
-        public FoodItemDisplayable(String foodName, String expirationDate, String quantity) {
+        public FoodItemDisplayable(String url, String foodName, String expirationDate, String quantity) {
+            this.url = url;
             this.foodName = foodName;
             this.expirationDate = expirationDate;
             this.quantity = quantity;
@@ -185,7 +188,8 @@ public class InventoryFragment extends Fragment {
                 viewHolder = (ViewHolder) convertView.getTag();
                 rowView = convertView;
             }
-            viewHolder.icon.setImageBitmap(displayable.displayIcon(parent.getContext()));
+            String url = displayable.url;
+            Picasso.get().load(url).into(viewHolder.icon);
             viewHolder.foodName.setText(displayable.displayFoodName());
             viewHolder.expirationDate.setText(displayable.displayExpirationDate());
             viewHolder.itemQuantity.setText(displayable.displayQuantity());
