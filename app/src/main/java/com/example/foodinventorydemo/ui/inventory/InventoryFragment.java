@@ -29,7 +29,6 @@ public class InventoryFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_inventory, container, false);
 
-
         ArrayList<FoodItemDisplayable> grainList = new ArrayList<>();
         grainList.add(new FoodItemDisplayable("Rice", "05/07/2021", "4"));
         grainList.add(new FoodItemDisplayable("Noodles", "05/07/2021", "3"));
@@ -93,6 +92,7 @@ public class InventoryFragment extends Fragment {
             public TextView foodName;
             public TextView expirationDate;
             public TextView itemQuantity;
+            public ImageView trashCan;
 //            public NumberPicker numberPicker;
             public FoodItemDisplayable displayable;
 
@@ -101,6 +101,7 @@ public class InventoryFragment extends Fragment {
                 foodName = view.findViewById(R.id.food_name);
                 expirationDate = view.findViewById(R.id.expiration_date);
                 itemQuantity = view.findViewById(R.id.item_quantity);
+                trashCan = view.findViewById(R.id.list_item_trash);
 //                numberPicker = view.findViewById(R.id.list_number_picker);
                 displayable = null;
                 view.setOnClickListener(new View.OnClickListener() {
@@ -171,9 +172,9 @@ public class InventoryFragment extends Fragment {
         }
 
         @Override
-        public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
             ViewHolder viewHolder;
-            View rowView;
+            final View rowView;
             FoodItemDisplayable displayable = (FoodItemDisplayable) getChild(groupPosition, childPosition);
             if (convertView == null) {
                 LayoutInflater layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -188,6 +189,14 @@ public class InventoryFragment extends Fragment {
             viewHolder.foodName.setText(displayable.displayFoodName());
             viewHolder.expirationDate.setText(displayable.displayExpirationDate());
             viewHolder.itemQuantity.setText(displayable.displayQuantity());
+            viewHolder.trashCan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String categoryName = titleList.get(groupPosition);
+                    dataList.get(categoryName).remove(childPosition);
+                    notifyDataSetChanged();
+                }
+            });
 //            viewHolder.numberPicker.setMaxValue(100);
 //            viewHolder.numberPicker.setMinValue(0);
             viewHolder.displayable = displayable;

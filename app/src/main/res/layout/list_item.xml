@@ -61,6 +61,14 @@
                     android:padding="15dp"
                     android:text="Qty: 1"/>
 
+                <ImageView
+                    android:id="@+id/list_item_trash"
+                    android:layout_width="25dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="8dp"
+                    android:src="@drawable/ic_baseline_delete_24" />
+
             </LinearLayout>
 
         </LinearLayout>
