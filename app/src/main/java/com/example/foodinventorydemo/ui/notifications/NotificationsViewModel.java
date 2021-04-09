@@ -10,7 +10,7 @@ public class NotificationsViewModel extends ViewModel {
 
     public NotificationsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("Notifications Fragment:\nNot yet implemented");
+        mText.setValue("Goals Fragment:\nNot yet implemented");
     }
 
     public LiveData<String> getText() {
