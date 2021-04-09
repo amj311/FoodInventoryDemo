@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.foodinventorydemo.model.ProductUnitData;
+import com.example.foodinventorydemo.singleton.DataCache;
 import com.example.foodinventorydemo.ui.scanner.ScannerCaller;
 import com.example.foodinventorydemo.ui.scanner.ScannerFragment;
 import com.example.foodinventorydemo.utils.ResourceResponseHandler;
@@ -229,6 +230,7 @@ public class AddItemActivity extends AppCompatActivity {
 
     private void addItem(ProductUnitData item) {
         items.add(item);
+        DataCache.getInstance().foodItemList.add(item);
         adapter.notifyItemChanged(items.size()-1,item);
         itemsRV.smoothScrollToPosition(items.size()-1);
     }
