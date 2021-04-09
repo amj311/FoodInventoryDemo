@@ -12,9 +12,12 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -49,6 +52,8 @@ public class AddItemActivity extends AppCompatActivity {
 
     TextView inLabel;
     TextView outLabel;
+    TextView modeMsg;
+    TextView modeTapHint;
     LinearLayoutCompat inForm;
     LinearLayoutCompat outForm;
     SwitchMaterial modeToggle;
@@ -77,12 +82,14 @@ public class AddItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_remove_item);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().hide();
         dataResHandler = new ProductResultHandler();
 
         modeToggle = findViewById(R.id.inOutToggle);
         inLabel = findViewById(R.id.inLabel);
         outLabel = findViewById(R.id.outLabel);
+        modeMsg = findViewById(R.id.scanModeText);
+        modeTapHint = findViewById(R.id.scanModeTapHint);
         inForm = findViewById(R.id.addForm);
         outForm = findViewById(R.id.removeForm);
 
@@ -168,6 +175,10 @@ public class AddItemActivity extends AppCompatActivity {
         itemsRV = findViewById(R.id.itemsList);
         itemsRV.setLayoutManager(new LinearLayoutManager(this));
         itemsRV.setAdapter(adapter);
+
+        modeTapHint.setAlpha(0);
+//        assignFadeOutInAnim(modeMsg,1,0);
+//        assignFadeOutInAnim(modeTapHint,1,1);
     }
 
 
@@ -350,5 +361,31 @@ public class AddItemActivity extends AppCompatActivity {
             super.onAttachedToRecyclerView(recyclerView);
         }
 
+    }
+
+
+    private void assignFadeOutInAnim(View view, int waitFactor, int offsetFactor) {
+        view.setAlpha(0f);
+
+        int animDuration = 1000;
+        int fadeDuration = animDuration/2;
+        int offsetDuration = animDuration*offsetFactor;
+
+        AlphaAnimation fadeIn = new AlphaAnimation(0.0f , 1.0f );
+        AlphaAnimation fadeOut = new AlphaAnimation( 1.0f , 0.0f );
+        AlphaAnimation hide = new AlphaAnimation( 0.0f , 0.0f );
+        fadeIn.setDuration(fadeDuration);
+        fadeIn.setStartOffset(offsetDuration);
+        fadeIn.setRepeatCount(Animation.INFINITE);
+        fadeOut.setDuration(fadeDuration);
+        fadeOut.setStartOffset(fadeDuration+offsetDuration);
+        fadeOut.setRepeatCount(Animation.INFINITE);
+        hide.setDuration(animDuration*waitFactor);
+        hide.setDuration(animDuration+offsetDuration);
+        hide.setRepeatCount(Animation.INFINITE);
+
+        view.startAnimation(fadeIn);
+        view.startAnimation(fadeOut);
+        view.startAnimation(hide);
     }
 }
