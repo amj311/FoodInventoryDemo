@@ -149,7 +149,6 @@ public class ScannerFragment extends Fragment {
                         public void run() {
                             if (canScan()) {
                                 String barcodeData = barcodes.valueAt(0).displayValue;
-                                barcodeText.setText(barcodeData);
                                 toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
                                 reportData(barcodeData);
                                 sleepScanner();

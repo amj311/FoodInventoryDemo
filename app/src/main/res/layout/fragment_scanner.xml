@@ -30,9 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:gravity="bottom|center"
-        android:text="Scanning..."
         android:textColor="#ffffff"
         android:layout_margin="20dp" />
-
 
 </FrameLayout>
