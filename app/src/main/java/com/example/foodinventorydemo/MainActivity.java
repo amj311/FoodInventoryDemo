@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Objects.requireNonNull(getSupportActionBar()).hide();
-        
+
         navView = findViewById(R.id.bottomNavigationView);
         navView.getMenu().getItem(2).setEnabled(false);
 
