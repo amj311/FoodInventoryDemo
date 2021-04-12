@@ -53,6 +53,10 @@ public class InventoryFragment extends Fragment {
         ExpandableListView expandableListView = root.findViewById(R.id.expandable_list_view);
         Adapter adapter = new Adapter(keyList, listData);
         expandableListView.setAdapter(adapter);
+
+        for (int i = 0; i < listData.size(); i++) {
+            expandableListView.expandGroup(i);
+        }
         return root;
     }
 
@@ -171,7 +175,6 @@ public class InventoryFragment extends Fragment {
             TextView listTitleTextView = convertView.findViewById(R.id.list_title);
             listTitleTextView.setTypeface(null, Typeface.BOLD);
             listTitleTextView.setText(listTitle);
-            ((ExpandableListView) parent).expandGroup(groupPosition);
             return convertView;
         }
 
