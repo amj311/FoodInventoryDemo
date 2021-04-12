@@ -174,10 +174,26 @@ public class ScannerFragment extends Fragment {
     }
 
     private void playFlash() {
-        int animDuration = 100;
-        animator = ObjectAnimator.ofFloat(flash, View.ALPHA, 1f, 0f);
+        flash.setVisibility(View.VISIBLE);
+        int animDuration = 500;
+        animator = ObjectAnimator.ofFloat(flash, View.ALPHA, .75f, 0f);
         animator.setDuration(animDuration);
         animator.start();
+        animator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {}
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                flash.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {}
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {}
+        });
     }
 
     private boolean canScan() {

@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.util.Log;
@@ -18,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -33,16 +31,13 @@ import com.example.foodinventorydemo.singleton.DataCache;
 import com.example.foodinventorydemo.ui.scanner.ScannerCaller;
 import com.example.foodinventorydemo.ui.scanner.ScannerFragment;
 import com.example.foodinventorydemo.utils.ResourceResponseHandler;
+import com.example.foodinventorydemo.utils.Utils;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
-import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +54,7 @@ public class AddItemActivity extends AppCompatActivity {
     TextView modeMsg;
     View scanModeBar;
     ImageButton closeBtn;
-    Animator animator;
+    ObjectAnimator modeMsgAnimator;
     LinearLayoutCompat inForm;
     LinearLayoutCompat outForm;
 
@@ -75,6 +70,7 @@ public class AddItemActivity extends AppCompatActivity {
 
     BottomSheetBehavior bottomSheetBehavior;
     LinearLayout bottomSheet;
+    ObjectAnimator sheetAnimator;
     TextView addTallyText;
     TextView removeTallyText;
     int addTally = 0;
@@ -193,15 +189,18 @@ public class AddItemActivity extends AppCompatActivity {
 
         adapter = new ItemListAdapter(items);
         itemsRV = findViewById(R.id.itemsList);
-        itemsRV.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        itemsRV.setLayoutManager(linearLayoutManager);
         itemsRV.setAdapter(adapter);
 
         int animDuration = 750;
-        animator = ObjectAnimator.ofFloat(modeMsg, View.ALPHA, 1f, .5f);
-        animator.setDuration(animDuration);
-        ((ObjectAnimator) animator).setRepeatMode(ValueAnimator.REVERSE);
-        ((ObjectAnimator) animator).setRepeatCount(ValueAnimator.INFINITE);
-        animator.start();
+        modeMsgAnimator = ObjectAnimator.ofFloat(modeMsg, View.ALPHA, 1f, .5f);
+        modeMsgAnimator.setDuration(animDuration);
+        modeMsgAnimator.setRepeatMode(ValueAnimator.REVERSE);
+        modeMsgAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        modeMsgAnimator.start();
     }
 
 
@@ -267,6 +266,14 @@ public class AddItemActivity extends AppCompatActivity {
         DataCache.getInstance().foodItemList.add(item);
         adapter.notifyItemChanged(items.size()-1,item);
         itemsRV.smoothScrollToPosition(items.size()-1);
+
+        int animDuration = 750;
+        sheetAnimator = ObjectAnimator.ofInt(bottomSheetBehavior, "peekHeight", Utils.dpToPx(75f,this), Utils.dpToPx(155f, this));
+        sheetAnimator.setDuration(animDuration);
+        sheetAnimator.setRepeatMode(ValueAnimator.REVERSE);
+        sheetAnimator.setRepeatCount(1);
+        sheetAnimator.start();
+
         if (mode == MODE_IN) {
             addTally += item.getQty();
             addTallyText.setText(String.valueOf(addTally)+" added");

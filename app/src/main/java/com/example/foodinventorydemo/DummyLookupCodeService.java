@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 public class DummyLookupCodeService extends LookupCodeService {
     private JSONObject fakeResJson = null;
+    private int count = 0;
 
     {
         try {
@@ -20,6 +21,8 @@ public class DummyLookupCodeService extends LookupCodeService {
 
     @Override
     public void fetchProductData(String c, ResourceResponseHandler<ProductUnitData> handler) {
-        handler.handleRes(super.createProductDataFromResponse(fakeResJson));
+        ProductUnitData data = super.createProductDataFromResponse(fakeResJson);
+        data.setName(String.valueOf(count++)+" "+data.getName());
+        handler.handleRes(data);
     }
 }
