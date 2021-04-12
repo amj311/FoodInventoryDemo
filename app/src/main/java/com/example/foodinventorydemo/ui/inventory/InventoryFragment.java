@@ -171,6 +171,7 @@ public class InventoryFragment extends Fragment {
             TextView listTitleTextView = convertView.findViewById(R.id.list_title);
             listTitleTextView.setTypeface(null, Typeface.BOLD);
             listTitleTextView.setText(listTitle);
+            ((ExpandableListView) parent).expandGroup(groupPosition);
             return convertView;
         }
 
