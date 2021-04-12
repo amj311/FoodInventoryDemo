@@ -176,7 +176,7 @@ public class ScannerFragment extends Fragment {
     private void playFlash() {
         flash.setVisibility(View.VISIBLE);
         int animDuration = 500;
-        animator = ObjectAnimator.ofFloat(flash, View.ALPHA, .75f, 0f);
+        animator = ObjectAnimator.ofFloat(flash, View.ALPHA, .6f, 0f);
         animator.setDuration(animDuration);
         animator.start();
         animator.addListener(new Animator.AnimatorListener() {

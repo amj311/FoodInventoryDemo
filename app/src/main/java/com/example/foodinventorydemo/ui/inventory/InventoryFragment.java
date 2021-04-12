@@ -41,6 +41,7 @@ public class InventoryFragment extends Fragment {
         ArrayList<FoodItemDisplayable> otherList = new ArrayList<>();
         otherList.add(new FoodItemDisplayable("https://www.peanutbutter.com/wp-content/uploads/2019/03/SKIPPY_Product_PB_Spread_Creamy_Peanut_Butter_28oz.png","Peanut Butter", "04/21/2021", "7"));
         otherList.add(new FoodItemDisplayable("https://images.heb.com/is/image/HEBGrocery/000567987","Bottled Water", "08/20/2021", "2"));
+        otherList.add(new FoodItemDisplayable("https://images.homedepot-static.com/productImages/741fbb97-dedc-4571-acf1-9856fe6ec0ea/svn/camco-toilet-paper-40274-64_1000.jpg","Toilet Paper", "08/14/2054", "145"));
 
         HashMap<String, ArrayList<FoodItemDisplayable>> listData = new HashMap<>();
 

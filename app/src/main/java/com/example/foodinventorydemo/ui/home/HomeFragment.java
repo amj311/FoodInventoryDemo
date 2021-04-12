@@ -21,28 +21,6 @@ public class HomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-        textView.setText("It looks like your Peanut Butter will expire in 7 days!");
-        final TextView textView1 = root.findViewById(R.id.text_home2);
-        textView1.setText("It looks like your Rice will expire in 7 days!");
-
-        final Button viewButton = root.findViewById(R.id.view_inventory_button);
-        viewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NavController navController = Navigation.findNavController(v);
-                navController.navigate(R.id.navigation_inventory);
-            }
-        });
-
-        final Button viewButton2 = root.findViewById(R.id.view_inventory_button2);
-        viewButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NavController navController = Navigation.findNavController(v);
-                navController.navigate(R.id.navigation_inventory);
-            }
-        });
 
         return root;
     }
