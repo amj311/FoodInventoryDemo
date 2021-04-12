@@ -41,6 +41,9 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,6 +89,9 @@ public class AddItemActivity extends AppCompatActivity {
     boolean searching = false;
 
     ResourceResponseHandler<ProductUnitData> dataResHandler;
+
+    private boolean dev = true;
+    LookupCodeService lookupCodeService = dev? new DummyLookupCodeService() : new LookupCodeService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,7 +198,6 @@ public class AddItemActivity extends AppCompatActivity {
 
         int animDuration = 750;
         animator = ObjectAnimator.ofFloat(modeMsg, View.ALPHA, 1f, .5f);
-
         animator.setDuration(animDuration);
         ((ObjectAnimator) animator).setRepeatMode(ValueAnimator.REVERSE);
         ((ObjectAnimator) animator).setRepeatCount(ValueAnimator.INFINITE);
@@ -217,7 +222,7 @@ public class AddItemActivity extends AppCompatActivity {
         protected void onNewScanData(String data) {
             if (searching) return;
             induceSearchingState();
-            LookupCodeService.fetchProductData(data, dataResHandler);
+            lookupCodeService.fetchProductData(data, dataResHandler);
         }
     }
 
@@ -268,7 +273,7 @@ public class AddItemActivity extends AppCompatActivity {
         }
         if (mode == MODE_OUT) {
             removeTally += item.getQty();
-            removeTallyText.setText(String.valueOf(removeTally)+" added");
+            removeTallyText.setText(String.valueOf(removeTally)+" removed");
         }
     }
 
@@ -339,7 +344,7 @@ public class AddItemActivity extends AppCompatActivity {
                 modeText.setTextColor(mode.equals(MODE_IN) ? getResources().getColor(R.color.in_green) : getResources().getColor(R.color.out_red));
                 nameText.setText(item.getName());
                 expireText.setText(item.getExpiration()!=null ? item.getExpiration() : "Expires: 5/12/2024");
-                qtyText.setText(String.format("Qty: %d", item.getQty()!=0 ? item.getQty() : 1));
+                qtyText.setText(String.format("Qty: %d", item.getQty()));
                 attemptSetImage(imageView, item,null);
             }
 

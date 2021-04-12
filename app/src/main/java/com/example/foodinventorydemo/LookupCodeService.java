@@ -23,13 +23,13 @@ import java.util.List;
 import java.util.Map;
 
 public class LookupCodeService {
-    private final static String TAG = "PRODUCTLOOKUP";
+    private final String TAG = "PRODUCTLOOKUP";
 
-    private static String ACCESS_TOKEN_1 = "ea99924fbe34418fbcad9003f9718df3";
-    private static String ACCESS_TOKEN_2 = "f14aeb3d11dc46b58b52c50e13a04ac3";
-    private static String ACCESS_TOKEN = ACCESS_TOKEN_1;
+    private String ACCESS_TOKEN_1 = "ea99924fbe34418fbcad9003f9718df3";
+    private String ACCESS_TOKEN_2 = "f14aeb3d11dc46b58b52c50e13a04ac3";
+    private String ACCESS_TOKEN = ACCESS_TOKEN_1;
 
-    public static void fetchProductData(String c, final ResourceResponseHandler<ProductUnitData> handler) {
+    public void fetchProductData(String c, final ResourceResponseHandler<ProductUnitData> handler) {
         final String code = c;
 
         String reqUrl = "https://api.apigenius.io/products/lookup?upc="+code;
@@ -95,7 +95,7 @@ public class LookupCodeService {
         AppController.getInstance().addToRequestQueue(jsonObjReq);
     }
 
-    private static ProductUnitData createProductDataFromResponse(JSONObject res) {
+    protected ProductUnitData createProductDataFromResponse(JSONObject res) {
         String code = stringFromJSON(res, "identifier");
         JSONObject data = objectFromJSON(res,"items");
         String name = stringFromJSON(data, "title");
@@ -114,10 +114,10 @@ public class LookupCodeService {
             }
         }
 
-        return new ProductUnitData(code, name, brand, description, null, category, weight, imageUrls, 0);
+        return new ProductUnitData(code, name, brand, description, null, category, weight, imageUrls, 1);
     }
 
-    private static String stringFromJSON(JSONObject data, String key) {
+    private String stringFromJSON(JSONObject data, String key) {
         try {
             return data.has(key) ? data.getString(key) : null;
         } catch (JSONException e) {
@@ -126,7 +126,7 @@ public class LookupCodeService {
         return null;
     }
 
-    private static JSONObject objectFromJSON(JSONObject data, String key) {
+    private JSONObject objectFromJSON(JSONObject data, String key) {
         try {
             return data.has(key) ? data.getJSONObject(key) : null;
         } catch (JSONException e) {
@@ -135,7 +135,7 @@ public class LookupCodeService {
         return null;
     }
 
-    private static JSONArray arrayFromJSON(JSONObject data, String key) {
+    private JSONArray arrayFromJSON(JSONObject data, String key) {
         try {
             return data.has(key) ? data.getJSONArray(key) : null;
         } catch (JSONException e) {
@@ -144,7 +144,7 @@ public class LookupCodeService {
         return null;
     }
 
-    public static class NotFoundException extends Exception {
+    public class NotFoundException extends Exception {
         public final String code;
         public NotFoundException(String code) {
             super("Could not locate product: "+code);

@@ -1,6 +1,9 @@
 package com.example.foodinventorydemo.ui.scanner;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
@@ -42,6 +45,8 @@ public class ScannerFragment extends Fragment {
     private TextView barcodeText;
     private CameraSource cameraSource;
     private ImageView scanOverlay;
+    private View flash;
+    private Animator animator;
     private static final int REQUEST_CAMERA_PERMISSION = 201;
     //This class provides methods to play DTMF tones
     private ToneGenerator toneGen1;
@@ -86,6 +91,7 @@ public class ScannerFragment extends Fragment {
         surfaceView = view.findViewById(R.id.surface_view);
         barcodeText = view.findViewById(R.id.barcodeText);
         scanOverlay = view.findViewById(R.id.scanOverlay);
+        flash = view.findViewById(R.id.flash);
 
         initializeDetectorsAndSources();
 
@@ -150,6 +156,7 @@ public class ScannerFragment extends Fragment {
                             if (canScan()) {
                                 String barcodeData = barcodes.valueAt(0).displayValue;
                                 toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+                                playFlash();
                                 reportData(barcodeData);
                                 sleepScanner();
                             }
@@ -166,13 +173,20 @@ public class ScannerFragment extends Fragment {
         selfAllow = true;
     }
 
+    private void playFlash() {
+        int animDuration = 100;
+        animator = ObjectAnimator.ofFloat(flash, View.ALPHA, 1f, 0f);
+        animator.setDuration(animDuration);
+        animator.start();
+    }
+
     private boolean canScan() {
         return extAllow && selfAllow;
     }
 
     private void updateAllowScan() {
         if (canScan()) scanOverlay.setAlpha(1F);
-        else scanOverlay.setAlpha(0.5F);
+        else scanOverlay.setAlpha(0F);
     }
 
     public void disallowScan() {
