@@ -2,6 +2,7 @@ package com.example.foodinventorydemo.ui.inventory;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -50,8 +51,8 @@ public class InventoryFragment extends Fragment {
 
         HashMap<String, ArrayList<FoodItemDisplayable>> listData = new HashMap<>();
 
-        listData.put("Fruit", fruitList);
         listData.put("Grains", grainList);
+        listData.put("Fruit", fruitList);
         listData.put("Other", otherList);
 
         List<String> keyList = new ArrayList<>(listData.keySet());
@@ -226,6 +227,10 @@ public class InventoryFragment extends Fragment {
             if (numDays <= 31) {
                 viewHolder.expAlertIcon.setVisibility(View.VISIBLE);
                 viewHolder.expirationDate.setTextColor(getResources().getColor(R.color.out_red));
+            }
+            else {
+                viewHolder.expAlertIcon.setVisibility(View.GONE);
+                viewHolder.expirationDate.setTextColor(Color.parseColor("#606060"));
             }
 
             return rowView;
