@@ -86,7 +86,7 @@ public class AddItemActivity extends AppCompatActivity {
 
     ResourceResponseHandler<ProductUnitData> dataResHandler;
 
-    private boolean dev = true;
+    private boolean dev = false;
     LookupCodeService lookupCodeService = dev? new DummyLookupCodeService() : new LookupCodeService();
 
     @Override

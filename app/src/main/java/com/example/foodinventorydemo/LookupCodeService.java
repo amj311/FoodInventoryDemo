@@ -27,6 +27,7 @@ public class LookupCodeService {
 
     private String ACCESS_TOKEN_1 = "ea99924fbe34418fbcad9003f9718df3";
     private String ACCESS_TOKEN_2 = "f14aeb3d11dc46b58b52c50e13a04ac3";
+    private String ACCESS_TOKEN_3 = "a77a7cf68d1a40dfbb6a80c3227c6c89";
     private String ACCESS_TOKEN = ACCESS_TOKEN_1;
 
     public void fetchProductData(String c, final ResourceResponseHandler<ProductUnitData> handler) {
@@ -74,6 +75,10 @@ public class LookupCodeService {
                     Log.e(TAG,"Token failed: "+ACCESS_TOKEN);
                     if (ACCESS_TOKEN == ACCESS_TOKEN_1) {
                         ACCESS_TOKEN = ACCESS_TOKEN_2;
+                        fetchProductData(code,handler);
+                    }
+                    else if (ACCESS_TOKEN == ACCESS_TOKEN_2) {
+                        ACCESS_TOKEN = ACCESS_TOKEN_3;
                         fetchProductData(code,handler);
                     }
                     else handler.handleError(new Exception("Can not fetch data at this time!"));
