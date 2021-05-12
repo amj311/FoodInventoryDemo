@@ -1,4 +1,4 @@
-package com.example.foodinventorydemo;
+package com.example.foodinventorydemo.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,7 +7,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.os.Bundle;
@@ -27,8 +26,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.foodinventorydemo.service.DummyLookupCodeService;
+import com.example.foodinventorydemo.service.LookupCodeService;
+import com.example.foodinventorydemo.R;
 import com.example.foodinventorydemo.model.ProductUnitData;
-import com.example.foodinventorydemo.singleton.DataCache;
+import com.example.foodinventorydemo.cache.DataCache;
 import com.example.foodinventorydemo.ui.scanner.ScannerCaller;
 import com.example.foodinventorydemo.ui.scanner.ScannerFragment;
 import com.example.foodinventorydemo.utils.ResourceResponseHandler;

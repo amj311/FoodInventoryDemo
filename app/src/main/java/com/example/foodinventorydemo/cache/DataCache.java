@@ -1,4 +1,4 @@
-package com.example.foodinventorydemo.singleton;
+package com.example.foodinventorydemo.cache;
 
 import com.example.foodinventorydemo.model.ProductUnitData;
 

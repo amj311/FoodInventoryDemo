@@ -1,4 +1,4 @@
-package com.example.foodinventorydemo;
+package com.example.foodinventorydemo.service;
 
 import android.util.Log;
 
@@ -9,6 +9,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.foodinventorydemo.AppController;
 import com.example.foodinventorydemo.model.ProductUnitData;
 import com.example.foodinventorydemo.utils.ResourceResponseHandler;
 

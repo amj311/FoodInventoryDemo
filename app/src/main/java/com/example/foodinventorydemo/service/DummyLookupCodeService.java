@@ -1,4 +1,4 @@
-package com.example.foodinventorydemo;
+package com.example.foodinventorydemo.service;
 
 import com.example.foodinventorydemo.model.ProductUnitData;
 import com.example.foodinventorydemo.utils.ResourceResponseHandler;
