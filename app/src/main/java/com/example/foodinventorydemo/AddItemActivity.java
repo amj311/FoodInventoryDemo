@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -36,6 +37,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -50,6 +52,8 @@ public class AddItemActivity extends AppCompatActivity {
     private final int INPUT_SCAN = 0;
     private final int INPUT_FORM = 1;
     private int input;
+
+    SwitchMaterial demoSwitch;
 
     TextView modeMsg;
     View scanModeBar;
@@ -86,7 +90,7 @@ public class AddItemActivity extends AppCompatActivity {
 
     ResourceResponseHandler<ProductUnitData> dataResHandler;
 
-    private boolean dev = false;
+    boolean dev = true;
     LookupCodeService lookupCodeService = dev? new DummyLookupCodeService() : new LookupCodeService();
 
     @Override
@@ -96,6 +100,17 @@ public class AddItemActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
         dataResHandler = new ProductResultHandler();
+
+        updateDevStatus(dev);
+
+        demoSwitch = findViewById(R.id.demoToggle);
+        demoSwitch.setChecked(dev);
+        demoSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                updateDevStatus(b);
+            }
+        });
 
         modeMsg = findViewById(R.id.scanModeText);
         scanModeBar = findViewById(R.id.scan_app_bar);
@@ -201,6 +216,12 @@ public class AddItemActivity extends AppCompatActivity {
         modeMsgAnimator.setRepeatMode(ValueAnimator.REVERSE);
         modeMsgAnimator.setRepeatCount(ValueAnimator.INFINITE);
         modeMsgAnimator.start();
+    }
+
+
+    void updateDevStatus(boolean status) {
+        dev = status;
+        lookupCodeService = dev? new DummyLookupCodeService() : new LookupCodeService();
     }
 
 
