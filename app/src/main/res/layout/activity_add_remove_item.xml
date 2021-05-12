@@ -356,52 +356,52 @@
             style="@style/Widget.Demo.BottomSheet"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" >
 
-                <View
-                    android:id="@+id/divider"
-                    android:layout_width="100dp"
-                    android:layout_height="3dp"
-                    android:layout_gravity="center"
-                    android:background="?android:attr/listDivider" />
+            <View
+                android:id="@+id/divider"
+                android:layout_width="100dp"
+                android:layout_height="3dp"
+                android:layout_gravity="center"
+                android:background="?android:attr/listDivider" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginVertical="15dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Summary"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end|center"
                     android:orientation="horizontal"
-                    android:layout_marginVertical="15dp"
                     >
-
                     <TextView
+                        android:id="@+id/addTallyText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Summary"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:layout_marginRight="15dp"
+                        android:text="0 Added"
+                        android:textColor="#888"
+                        android:textSize="16sp" />
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/removeTallyText"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end|center"
-                        android:orientation="horizontal"
-                        >
-                        <TextView
-                            android:id="@+id/addTallyText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="15dp"
-                            android:text="0 Added"
-                            android:textColor="#888"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/removeTallyText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#888"
-                            android:text="0 Removed"
-                            android:textSize="16sp" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                        android:textColor="#888"
+                        android:text="0 Removed"
+                        android:textSize="16sp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
