@@ -302,7 +302,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#000000"
-                    android:visibility="gone"
                     android:clickable="true"
                     android:focusable="true">
 
@@ -403,13 +402,22 @@
                         android:textSize="16sp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/itemsList"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+            <ProgressBar
+                android:id="@+id/newTransactionSpinner"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="8dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:indeterminate="true"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/itemsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"

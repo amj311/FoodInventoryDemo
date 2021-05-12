@@ -72,7 +72,8 @@ public class AddItemActivity extends AppCompatActivity {
     EditText categoryField;
     EditText expireField;
     EditText qtyField;
-    ProgressBar searchingSpinner;
+    ProgressBar scannerSpinner;
+    ProgressBar newTransactionSpinner;
 
     BottomSheetBehavior bottomSheetBehavior;
     LinearLayout bottomSheet;
@@ -125,7 +126,8 @@ public class AddItemActivity extends AppCompatActivity {
         startManualBtn = findViewById(R.id.startManualBtn);
         fragWrap = findViewById(R.id.addScanFragWrapper);
         addFrag = findViewById(R.id.addScanFrag);
-        searchingSpinner = findViewById(R.id.searchingSpinner);
+        scannerSpinner = findViewById(R.id.searchingSpinner);
+        newTransactionSpinner = findViewById(R.id.newTransactionSpinner);
         nameField = findViewById(R.id.nameField);
         categoryField = findViewById(R.id.categoryField);
         expireField = findViewById(R.id.expField);
@@ -313,13 +315,15 @@ public class AddItemActivity extends AppCompatActivity {
     private void endSearchingState() {
         searching = false;
         scanner.allowScan();
-        searchingSpinner.setVisibility(View.GONE);
+        scannerSpinner.setVisibility(View.GONE);
+        newTransactionSpinner.setVisibility(View.GONE);
     }
 
     private void induceSearchingState() {
         searching = true;
         scanner.disallowScan();
-        searchingSpinner.setVisibility(View.VISIBLE);
+        scannerSpinner.setVisibility(View.VISIBLE);
+        newTransactionSpinner.setVisibility(View.VISIBLE);
     }
 
 
