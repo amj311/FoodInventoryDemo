@@ -4,8 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.foodinventorydemo.AppController;
+import com.example.foodinventorydemo.cache.AppController;
 import com.example.foodinventorydemo.R;
+import com.example.foodinventorydemo.ui.scanner.ScannerActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddItemActivity.class);
+                Intent intent = new Intent(MainActivity.this, ScannerActivity.class);
                 startActivity(intent);
             }
         });
