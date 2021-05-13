@@ -1,16 +1,16 @@
-package com.example.foodinventorydemo.ui.settings;
+package com.example.foodinventorydemo.ui.main.goals;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SettingsViewModel extends ViewModel {
+public class NotificationsViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public SettingsViewModel() {
+    public NotificationsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("Settings Fragment:\nNot yet implemented");
+        mText.setValue("Goals Fragment:\nNot yet implemented");
     }
 
     public LiveData<String> getText() {

@@ -1,4 +1,4 @@
-package com.example.foodinventorydemo.ui.inventory;
+package com.example.foodinventorydemo.ui.main.inventory;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,19 +11,15 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.foodinventorydemo.R;
 import com.squareup.picasso.Picasso;
 
 import java.time.LocalDate;
-import java.time.Month;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
