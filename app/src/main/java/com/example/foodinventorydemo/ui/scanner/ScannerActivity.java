@@ -1,4 +1,4 @@
-package com.example.foodinventorydemo.ui;
+package com.example.foodinventorydemo.ui.scanner;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,14 +26,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.foodinventorydemo.model.ProductBundleTransaction;
+import com.example.foodinventorydemo.model.ProductExpBundle;
+import com.example.foodinventorydemo.model.TransactionSummary;
 import com.example.foodinventorydemo.service.DummyLookupCodeService;
 import com.example.foodinventorydemo.service.LookupCodeService;
 import com.example.foodinventorydemo.R;
 import com.example.foodinventorydemo.model.ProductUnitData;
-import com.example.foodinventorydemo.cache.DataCache;
-import com.example.foodinventorydemo.ui.scanner.ScannerCaller;
-import com.example.foodinventorydemo.ui.scanner.ScannerFragment;
-import com.example.foodinventorydemo.utils.ResourceResponseHandler;
+import com.example.foodinventorydemo.model.ResourceResponseHandler;
+import com.example.foodinventorydemo.utils.DateUtils;
 import com.example.foodinventorydemo.utils.Utils;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
@@ -43,10 +44,14 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
-public class AddItemActivity extends AppCompatActivity {
+public class ScannerActivity extends AppCompatActivity {
     private final String MODE_IN = "IN";
     private final String MODE_OUT = "OUT";
     private String mode;
@@ -75,6 +80,8 @@ public class AddItemActivity extends AppCompatActivity {
     ProgressBar scannerSpinner;
     ProgressBar newTransactionSpinner;
 
+    long expFieldSelection;
+
     BottomSheetBehavior bottomSheetBehavior;
     LinearLayout bottomSheet;
     ObjectAnimator sheetAnimator;
@@ -83,8 +90,9 @@ public class AddItemActivity extends AppCompatActivity {
     int addTally = 0;
     int removeTally = 0;
     RecyclerView itemsRV;
-    ItemListAdapter adapter;
+    TransactionListAdapter adapter;
     List<ProductUnitData> items = new ArrayList<>();
+    TransactionSummary transactionSummary;
 
     MaterialDatePicker datePicker;
     int numItemsShown = 0;
@@ -138,6 +146,7 @@ public class AddItemActivity extends AppCompatActivity {
             @Override
             public void onPositiveButtonClick(Object selection) {
                 expireField.setText(datePicker.getHeaderText());
+                expFieldSelection = (long) selection;
             }
         });
 
@@ -206,7 +215,9 @@ public class AddItemActivity extends AppCompatActivity {
 
         });
 
-        adapter = new ItemListAdapter(items);
+        transactionSummary = TransactionSummary.Builder().shouldMergeSimilar(true).build();
+
+        adapter = new TransactionListAdapter(transactionSummary.getTransactions());
         itemsRV = findViewById(R.id.itemsList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
@@ -253,19 +264,19 @@ public class AddItemActivity extends AppCompatActivity {
     class ProductResultHandler extends ResourceResponseHandler<ProductUnitData> {
         @Override
         public void handleError(Exception e) {
-            Toast.makeText(AddItemActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(ScannerActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             endSearchingState();
         }
 
         public void handleError(LookupCodeService.NotFoundException e) {
-            Toast.makeText(AddItemActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(ScannerActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             endSearchingState();
         }
 
         @Override
         public void handleRes(ProductUnitData res) {
             endSearchingState();
-            addItem(res);
+            addTransactionFromUnitData(res,mode.equals(MODE_IN)? 1 : -1);
         }
     }
 
@@ -274,7 +285,8 @@ public class AddItemActivity extends AppCompatActivity {
 
     private void addItemFromForm() {
         String name = nameField.getText().toString();
-        String expiration = expireField.getText().toString();
+//        Long expiration = expireField.getText().toString();
+//        long expiration = 0;
         String category = categoryField.getText().toString();
         int qty = 1;
         try{
@@ -283,14 +295,32 @@ public class AddItemActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        addItem(new ProductUnitData(null, name,null, null, expiration, category,null,null, qty));
+        ProductUnitData unitData = new ProductUnitData(null, name,null, null, category,null,null);
+        addTransactionFromUnitData(unitData, qty, DateUtils.format(expFieldSelection));
     }
 
-    private void addItem(ProductUnitData item) {
-        items.add(item);
-        DataCache.getInstance().foodItemList.add(item);
-        adapter.notifyItemChanged(items.size()-1,item);
-        itemsRV.smoothScrollToPosition(items.size()-1);
+
+    private void addTransactionFromUnitData(ProductUnitData data, int qty) {
+        addTransactionFromUnitData(data,qty,null);
+    }
+    private void addTransactionFromUnitData(ProductUnitData data, int qty, String expiration) {
+        if (expiration == null) expiration = getExpirationForUnit(data);
+        ProductExpBundle bundle = new ProductExpBundle(data,expiration);
+        addTransaction(new ProductBundleTransaction(bundle, qty));
+    }
+
+    private String getExpirationForUnit(ProductUnitData data) {
+        // TODO Implement real expiry dates
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.add(GregorianCalendar.MONTH,2);
+        return DateUtils.format(cal.getTimeInMillis());
+    }
+
+
+    private void addTransaction(ProductBundleTransaction transaction) {
+        transactionSummary.addTransaction(transaction);
+        adapter.notifyItemChanged(transactionSummary.getTransactions().size()-1,transaction);
+        itemsRV.smoothScrollToPosition(transactionSummary.getTransactions().size()-1);
 
         int animDuration = 750;
         sheetAnimator = ObjectAnimator.ofInt(bottomSheetBehavior, "peekHeight", Utils.dpToPx(75f,this), Utils.dpToPx(155f, this));
@@ -300,11 +330,11 @@ public class AddItemActivity extends AppCompatActivity {
         sheetAnimator.start();
 
         if (mode == MODE_IN) {
-            addTally += item.getQty();
+            addTally += transaction.getAmount();
             addTallyText.setText(String.valueOf(addTally)+" added");
         }
         if (mode == MODE_OUT) {
-            removeTally += item.getQty();
+            removeTally += transaction.getAmount();
             removeTallyText.setText(String.valueOf(removeTally)+" removed");
         }
     }
@@ -349,10 +379,10 @@ public class AddItemActivity extends AppCompatActivity {
 
 
 
-    class ItemListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        List<ProductUnitData> list;
+    class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+        List<ProductBundleTransaction> list;
 
-        public ItemListAdapter(List<ProductUnitData> items) {
+        public TransactionListAdapter(List<ProductBundleTransaction> items) {
             list = items;
         }
 
@@ -370,16 +400,18 @@ public class AddItemActivity extends AppCompatActivity {
                 expireText = itemView.findViewById(R.id.productExpire);
                 qtyText = itemView.findViewById(R.id.productQty);
                 imageView = itemView.findViewById(R.id.productImage);
-
             }
 
-            public void setItem(ProductUnitData item) {
+            public void setItem(ProductBundleTransaction transaction) {
+                String expiration = transaction.getBundle().getExpiration();
+                ProductUnitData unitData = transaction.getBundle().getData();
+                String mode = transaction.getAmount() < 0 ? "OUT" : "IN";
                 modeText.setText(mode);
-                modeText.setTextColor(mode.equals(MODE_IN) ? getResources().getColor(R.color.in_green) : getResources().getColor(R.color.out_red));
-                nameText.setText(item.getName());
-                expireText.setText(item.getExpiration()!=null ? item.getExpiration() : "Expires: 5/12/2024");
-                qtyText.setText(String.format("Qty: %d", item.getQty()));
-                attemptSetImage(imageView, item,null);
+                modeText.setTextColor(mode.equals("IN") ? getResources().getColor(R.color.in_green) : getResources().getColor(R.color.out_red));
+                nameText.setText(unitData.getName());
+                expireText.setText(String.format("Expires: %s", expiration));
+                qtyText.setText(String.format("Qty: %d", Math.abs(transaction.getAmount())));
+                attemptSetImage(imageView, unitData,null);
             }
 
             private void attemptSetImage(final ImageView imageView, final ProductUnitData item, final String lastUrl) {

@@ -1,28 +1,25 @@
 package com.example.foodinventorydemo.model;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ProductUnitData {
     private String code;
     private String name;
     private String brand;
     private String description;
-    private String expiration;
     private String category;
     private String weight;
     private List<String> imageUrls;
-    private int qty;
 
-    public ProductUnitData(String code, String name, String brand, String description, String expiration, String category, String weight, List<String> imageUrls, int qty) {
+    public ProductUnitData(String code, String name, String brand, String description, String category, String weight, List<String> imageUrls) {
         this.code = code;
         this.name = name;
         this.brand = brand;
         this.description = description;
-        this.expiration = expiration;
         this.category = category;
         this.weight = weight;
         this.imageUrls = imageUrls;
-        this.qty = qty;
     }
 
     public String getCode() {
@@ -90,19 +87,19 @@ public class ProductUnitData {
         this.imageUrls = imageUrls;
     }
 
-    public int getQty() {
-        return qty;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductUnitData unitData = (ProductUnitData) o;
+        if (getCode()!=null && !getCode().equals(unitData.getCode())) return false;
+        if (getName()!=null && !getName().equals(unitData.getName())) return false;
+        if (getBrand()!=null && !getBrand().equals(unitData.getBrand())) return false;
+        if (getDescription()!=null && !getDescription().equals(unitData.getDescription())) return false;
+        if (getCategory()!=null && !getCategory().equals(unitData.getCategory())) return false;
+        if (getWeight()!=null && !getWeight().equals(unitData.getWeight())) return false;
+
+        return true;
     }
 
-    public void setQty(int qty) {
-        this.qty = qty;
-    }
-
-    public String getExpiration() {
-        return expiration;
-    }
-
-    public void setExpiration(String expiration) {
-        this.expiration = expiration;
-    }
 }

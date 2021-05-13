@@ -1,4 +1,4 @@
-package com.example.foodinventorydemo.utils;
+package com.example.foodinventorydemo.model;
 
 public class ResourceResponseHandler<T> {
     public void handleError(Exception e) {};

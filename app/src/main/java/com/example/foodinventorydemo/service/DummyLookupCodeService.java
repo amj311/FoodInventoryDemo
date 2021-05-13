@@ -1,14 +1,13 @@
 package com.example.foodinventorydemo.service;
 
 import com.example.foodinventorydemo.model.ProductUnitData;
-import com.example.foodinventorydemo.utils.ResourceResponseHandler;
+import com.example.foodinventorydemo.model.ResourceResponseHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class DummyLookupCodeService extends LookupCodeService {
     private JSONObject fakeResJson = null;
-    private int count = 0;
 
     {
         try {
@@ -22,7 +21,6 @@ public class DummyLookupCodeService extends LookupCodeService {
     @Override
     public void fetchProductData(String c, ResourceResponseHandler<ProductUnitData> handler) {
         ProductUnitData data = super.createProductDataFromResponse(fakeResJson);
-        data.setName(String.valueOf(count++)+" "+data.getName());
         handler.handleRes(data);
     }
 }

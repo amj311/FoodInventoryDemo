@@ -1,18 +1,19 @@
 package com.example.foodinventorydemo.model;
 
-import java.util.List;
-
-public class ProductUnitBundle {
+public class ProductExpBundle {
     private ProductUnitData data;
+    private String expiration;
     private int qty;
 
-    public ProductUnitBundle(ProductUnitData data, int qty) {
+    public ProductExpBundle(ProductUnitData data, String expiration, int qty) {
         this.data = data;
+        this.expiration = expiration;
         this.qty = qty;
     }
 
-    public ProductUnitBundle(ProductUnitData data) {
+    public ProductExpBundle(ProductUnitData data, String expiration) {
         this.data = data;
+        this.expiration = expiration;
         this.qty = 0;
     }
 
@@ -32,4 +33,17 @@ public class ProductUnitBundle {
     public void modifyQtyBy(int delta) throws Exception {
         this.setQty(Math.max(0, qty+delta));
     }
+
+    public String getExpiration() {
+        return expiration;
+    }
+
+    public boolean isSameAs(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductExpBundle that = (ProductExpBundle) o;
+        return getData().equals(that.getData()) &&
+                getExpiration().equals(that.getExpiration());
+    }
+
 }
