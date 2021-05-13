@@ -1,4 +1,4 @@
-package com.example.foodinventorydemo.cache;
+package com.example.foodinventorydemo.state;
 
 import android.content.Context;
 import android.text.TextUtils;

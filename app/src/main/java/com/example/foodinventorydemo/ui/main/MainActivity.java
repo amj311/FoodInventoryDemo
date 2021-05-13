@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.foodinventorydemo.cache.AppController;
+import com.example.foodinventorydemo.state.AppController;
 import com.example.foodinventorydemo.R;
 import com.example.foodinventorydemo.ui.scanner.ScannerActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
