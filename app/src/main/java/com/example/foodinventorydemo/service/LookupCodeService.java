@@ -9,15 +9,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.foodinventorydemo.AppController;
+import com.example.foodinventorydemo.cache.AppController;
 import com.example.foodinventorydemo.model.ProductUnitData;
-import com.example.foodinventorydemo.utils.ResourceResponseHandler;
+import com.example.foodinventorydemo.model.ResourceResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,15 +60,16 @@ public class LookupCodeService {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.e(TAG,""+error);
+
                 NetworkResponse res = error.networkResponse;
                 String resJson = "";
                 try {
                     resJson = new String(res.data, HttpHeaderParser.parseCharset(res.headers));
-                } catch (UnsupportedEncodingException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                Log.e(TAG,""+error);
                 Log.e(TAG,resJson);
 
                 if (res.statusCode == 403) {
@@ -98,7 +98,7 @@ public class LookupCodeService {
 
 
         // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(jsonObjReq);
+        AppController.getInstance().requests().addToRequestQueue(jsonObjReq);
     }
 
     protected ProductUnitData createProductDataFromResponse(JSONObject res) {
@@ -120,7 +120,7 @@ public class LookupCodeService {
             }
         }
 
-        return new ProductUnitData(code, name, brand, description, null, category, weight, imageUrls, 1);
+        return new ProductUnitData(code, name, brand, description, category, weight, imageUrls);
     }
 
     private String stringFromJSON(JSONObject data, String key) {

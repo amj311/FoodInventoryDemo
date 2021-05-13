@@ -1,35 +1,25 @@
-package com.example.foodinventorydemo;
+package com.example.foodinventorydemo.cache;
 
-import android.app.Application;
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-public class AppController extends Application {
-
-    public static final String TAG = AppController.class.getSimpleName();
-
+public class RequestController {
     private RequestQueue mRequestQueue;
+    private Context ctx;
+    public static final String TAG = RequestController.class.getSimpleName();
 
-    private static AppController mInstance;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        mInstance = this;
-    }
-
-    public static synchronized AppController getInstance() {
-        return mInstance;
+    public RequestController(Context ctx) {
+        this.ctx = ctx;
     }
 
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(getApplicationContext());
+            mRequestQueue = Volley.newRequestQueue(ctx);
         }
-
         return mRequestQueue;
     }
 

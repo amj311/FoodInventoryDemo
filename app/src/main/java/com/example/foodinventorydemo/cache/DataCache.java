@@ -10,10 +10,7 @@ public class DataCache {
 
     public List<ProductUnitData> foodItemList = new ArrayList<>();
     // private constructor restricted to this class itself
-    private DataCache()
-    {
-
-    }
+    private DataCache() {}
 
     // static method to create instance of Singleton class
     public static DataCache getInstance()
