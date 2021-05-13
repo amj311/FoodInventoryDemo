@@ -87,8 +87,6 @@ public class ScannerActivity extends AppCompatActivity {
     ObjectAnimator sheetAnimator;
     TextView addTallyText;
     TextView removeTallyText;
-    int addTally = 0;
-    int removeTally = 0;
     RecyclerView itemsRV;
     TransactionListAdapter adapter;
     List<ProductUnitData> items = new ArrayList<>();
@@ -319,7 +317,7 @@ public class ScannerActivity extends AppCompatActivity {
 
     private void addTransaction(ProductBundleTransaction transaction) {
         transactionSummary.addTransaction(transaction);
-        adapter.notifyItemChanged(transactionSummary.getTransactions().size()-1,transaction);
+        adapter.notifyDataSetChanged();
         itemsRV.smoothScrollToPosition(transactionSummary.getTransactions().size()-1);
 
         int animDuration = 750;
@@ -329,14 +327,8 @@ public class ScannerActivity extends AppCompatActivity {
         sheetAnimator.setRepeatCount(1);
         sheetAnimator.start();
 
-        if (mode == MODE_IN) {
-            addTally += transaction.getAmount();
-            addTallyText.setText(String.valueOf(addTally)+" added");
-        }
-        if (mode == MODE_OUT) {
-            removeTally += transaction.getAmount();
-            removeTallyText.setText(String.valueOf(removeTally)+" removed");
-        }
+        addTallyText.setText(String.valueOf(transactionSummary.getNumAdded())+" added");
+        removeTallyText.setText(String.valueOf(transactionSummary.getNumRemoved())+" removed");
     }
 
 

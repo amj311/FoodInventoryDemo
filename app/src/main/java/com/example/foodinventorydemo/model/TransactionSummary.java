@@ -52,14 +52,17 @@ public class TransactionSummary {
     private List<ProductBundleTransaction> transactions;
     private TransactionSummaryConfig config;
 
+    private int numAdded = 0;
+    private int numRemoved = 0;
+
     private TransactionSummary(TransactionSummaryConfig config) {
         this.config = config;
         this.transactions = new ArrayList<>();
     }
 
     public void addTransaction(ProductBundleTransaction transaction) {
-        // Attempt to merge similar transactions
         if (config.mergeSimilar) {
+            // Attempt to merge similar transactions
             for (ProductBundleTransaction oldTransaction : transactions) {
                 if (oldTransaction.getBundle().isSameAs(transaction.getBundle())) {
                     transaction.modifyAmountBy(oldTransaction.getAmount());
@@ -69,9 +72,34 @@ public class TransactionSummary {
             }
         }
         transactions.add(transaction);
+        calculateStats();
+    }
+
+    private void calculateStats() {
+        int inCnt = 0;
+        int outCnt = 0;
+
+        for (ProductBundleTransaction transaction : transactions) {
+            if (transaction.getAmount() < 0) outCnt += Math.abs(transaction.getAmount());
+            else inCnt += transaction.getAmount();
+        }
+
+        numAdded = inCnt;
+        numRemoved = outCnt;
     }
 
     public List<ProductBundleTransaction> getTransactions() {
         return transactions;
     }
+
+
+
+    public int getNumAdded() {
+        return numAdded;
+    }
+
+    public int getNumRemoved() {
+        return numRemoved;
+    }
+
 }
