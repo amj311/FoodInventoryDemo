@@ -2,12 +2,19 @@ package com.example.foodinventorydemo.service;
 
 import com.example.foodinventorydemo.model.ProductUnitData;
 import com.example.foodinventorydemo.model.ResourceResponseHandler;
+import com.example.foodinventorydemo.ui.main.inventory.InventoryFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+
 public class DummyLookupCodeService extends LookupCodeService {
     private JSONObject fakeResJson = null;
+    private List<ProductUnitData> dummyData;
 
     {
         try {
@@ -16,11 +23,32 @@ public class DummyLookupCodeService extends LookupCodeService {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        dummyData = Arrays.asList(
+                super.createProductDataFromResponse(fakeResJson),
+                new ProductUnitData(null,"Rice", null, null,null, null,
+                        Arrays.asList("https://previews.123rf.com/images/jamakosy/jamakosy1711/jamakosy171100225/90332158-white-rice-in-burlap-sack-bag-isolated-on-white-background.jpg")),
+                new ProductUnitData(null,"Noodles", null, null,null, null,
+                        Arrays.asList("https://www.dutchmansstore.com/wp-content/uploads/2020/09/DSC_4812-Edit-scaled-e1601073911963.jpg")),
+                new ProductUnitData(null,"Dried Apples", null, null,null, null,
+                        Arrays.asList("https://nuts.com/images/rackcdn/ed910ae2d60f0d25bcb8-80550f96b5feb12604f4f720bfefb46d.ssl.cf1.rackcdn.com/e8d95ad6e4090391-sXRwtvud-large.jpg")),
+                new ProductUnitData(null,"Dried Pears", null, null,null, null,
+                        Arrays.asList("https://www.bellaviva.com/assets/images/dried-fruit/pear.jpg")),
+                new ProductUnitData(null,"Peanut Butter", null, null,null, null,
+                        Arrays.asList("https://www.peanutbutter.com/wp-content/uploads/2019/03/SKIPPY_Product_PB_Spread_Creamy_Peanut_Butter_28oz.png")),
+                new ProductUnitData(null,"Bottled Water", null, null,null, null,
+                        Arrays.asList("https://images.heb.com/is/image/HEBGrocery/000567987")),
+                new ProductUnitData(null,"Dried Pears", null, null,null, null,
+                        Arrays.asList("https://www.bellaviva.com/assets/images/dried-fruit/pear.jpg")),
+                new ProductUnitData(null,"Toilet Paper", null, null,null, null,
+                        Arrays.asList("https://images.homedepot-static.com/productImages/741fbb97-dedc-4571-acf1-9856fe6ec0ea/svn/camco-toilet-paper-40274-64_1000.jpg"))
+        );
     }
 
     @Override
     public void fetchProductData(String c, ResourceResponseHandler<ProductUnitData> handler) {
-        ProductUnitData data = super.createProductDataFromResponse(fakeResJson);
+        Random rand = new Random();
+        ProductUnitData data = dummyData.get(rand.nextInt(dummyData.size()));
         handler.handleRes(data);
     }
 }
